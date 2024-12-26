@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CTAF: Add Tournament</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles_addtour.css') }}">
+</head>
+<body>
+    <button class="back-button" onclick="goBack()">Go Back</button>
+
+    <h1><font color="white" face="algerian">Tournament Information</font></h1>
+    <div class="container success-message-container {% if status == 1 %}visible{% endif %}">
+        <div class="success-message">
+            Tournament successfully added!
+        </div>
+    </div>
+
+    <script>
+        function goBack() {
+            window.location.href = '/';
+        }
+    </script>
+
+    <div class="container" >
+    <div class=".page-div">
+        <h1>Tournament Information Form</h1>
+        
+        <form action="/add" method="POST" enctype="multipart/form-data">
+            <div>
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="weight">Weight Of Tournament</label>
+                    <input type="number" id="weight" name="weight" max="5" min="1" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="number">No. Of Participants</label>
+                    <input type="number" id="players" name="players" required>
+                </div>
+
+                <!-- Date Input -->
+                <div class="form-group">
+                    <label for="date">Date</label>
+                    <input type="date" id="date" name="date" required>
+                </div>
+
+                <!-- CSV Input -->
+                <div class="form-group">
+                    <label for="csvfile">CSV File</label>
+                    <input type="file" id="csvfile" name="csvfile" accept=".csv" required>
+                </div>
+
+                <!-- PGN Total Input -->
+                <div class="form-group">
+                    <label for="pgnfile">Complete PGN of Tournament</label>
+                    <input type="file" id="pgnfile" name="pgnfile" accept=".pgn" required>
+                </div>
+
+                <!-- PGN Iconic Game Input -->
+                <div class="form-group">
+                    <label for="pgniconic">PGN of Iconic Game</label>
+                    <input type="file" id="pgniconic" name="pgniconic" accept=".pgn" required>
+                </div>
+
+                <!-- Winner Input -->
+                <div class="form-group">
+                    <label for="winner">Winner</label>
+                    <input type="text" id="winner" name="winner" required>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="form-group">
+                    <input type="submit" value="Submit">
+                </div>
+            </div>
+        </form>
+    </div>
+    </div>
+
+
+</body>
+</html>

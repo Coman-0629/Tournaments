@@ -1,0 +1,117 @@
+.page-div {
+    background-color: lightgreen; /* Background color */
+    color: darkblue; /* Text color */
+    padding: 20px;
+    text-align: center;
+}
+body {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('chessboard1.jpg');
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
+    color: white;
+    image-rendering: crisp-edges;
+    font-family: Arial, sans-serif; /* Keep the font-family from the second rule */
+    margin: 0;
+    padding: 0;
+}
+/* Styles for the back button */
+.back-button {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.back-button:hover {
+    background-color: #45a049;
+}
+
+/* Container for the form */
+.container {
+    max-width: 600px;
+    max-height: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff067;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Header styles */
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+/* Form group styling for spacing between input fields */
+.form-group {
+    margin-bottom: 15px;
+}
+
+/* Label styling */
+label {
+    display: block;
+    font-size: 1rem;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+.success-message-container {
+    display: none; /* Hide by default */
+}
+.success-message {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+.visible {
+    display: block; /* Show when status is 1 */
+}
+
+/* Input and textarea styling */
+input[type="text"],
+input[type="date"],
+input[type="file"],
+input[type="submit"],
+input[type="number"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    color:#333
+}
+
+/* Submit button styling */
+input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+/* Footer styling */
+.footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: #777;
+}
