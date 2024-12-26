@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect
 import sqlite3
 import csv
 import chess.pgn
+import os
 from datetime import datetime
 app=Flask(__name__,template_folder='templates',static_folder='static')
 
@@ -278,5 +279,7 @@ def viewplayers():
 
 
 if __name__=='__main__':
+    if not os.path.exists('data'):
+        os.makedirs('data')
     db()
     app.run(host='0.0.0.0',port=5555,debug=True)
