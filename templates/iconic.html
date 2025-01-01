@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iconic Chess Games</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='iconic.css') }}">
+</head>
+<body>
+    <button class="back-button" onclick="goBack()">Go Back</button>
+    <script>
+        function goBack() {
+            window.location.href = '/';
+        }
+    </script>
+    <div class="container">
+        <h1 class="heading">Moments Frozen in Time</h1>
+        <h2 class="subheading">Games That Shaped the Leaderboard<br>Timeless Moves, Unforgettable Battles</h2>
+        
+        {% for tournament in tournaments %}
+        <div class="tournament">
+            <div class="tournament-text">
+                <h2 class="tournament-name">{{ tournament[0] }}</h2>
+                <p class="details">
+                    <strong>Winner:</strong> {{ tournament[1] }}<br>
+                    <strong>Date:</strong> {{ tournament[2] }}<br>
+                    <strong>Players:</strong> {{ tournament[3] }}<br>
+                    <strong>Weight:</strong> {{ tournament[4] }}
+                </p>
+            </div>
+            <a class="tournament-gif" href="{{tournament[6]}}" target="_blank">
+                <img src="{{ tournament[5] }}"></img>
+                <p>Click To View Actual Game</p>
+            </a>
+        </div>
+        <hr>
+        {% endfor %}
+    </div>
+</body>
+</html>

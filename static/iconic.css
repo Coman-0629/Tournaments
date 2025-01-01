@@ -1,0 +1,102 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: url("../static/chessboard1.jpg") no-repeat center center fixed;
+    background-size: cover;
+    color: rgb(255, 255, 255);
+}
+
+.container {
+    padding: 20px;
+}
+
+.heading {
+    text-align: center;
+    font-family: "Algerian", serif;
+    font-size: 3rem;
+    margin-top: 20px;
+}
+
+.subheading {
+    text-align: center;
+    font-style: italic;
+    font-size: 1.5rem;
+    margin-bottom: 40px;
+}
+
+.tournament {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.6);
+    border-radius: 10px;
+    width: 90%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.tournament-text {
+    width: 50%;
+}
+
+.tournament-name {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    font-family: "Cursive", sans-serif;
+    color: #333;
+}
+
+.details {
+    font-size: 1.2rem;
+    color: #444;
+    font-family: "Times New Roman", serif;
+}
+
+.tournament-gif {
+    display: block;
+    width: 50%;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    object-fit: contain;
+}
+
+.tournament-gif img {
+    width: 100%;      /* Makes the GIF responsive to the parent container's width */
+    height: auto;     /* Adjusts the height based on the aspect ratio */
+    max-width: 300px;
+    max-height: 310px; /* Optional: restricts the maximum width */
+    display: block;   /* Ensures there are no extra margins/paddings around the image */
+    margin: 0 auto;   /* Centers the image horizontally */
+}
+
+.tournament-gif p {
+    margin-top: 10px;
+    font-size: 1.1rem;
+    text-decoration: underline;
+}
+
+hr {
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    margin: 40px 0;
+}
+
+.back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 10px 15px;
+    font-size: 1rem;
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+    background-color: rgba(255, 255, 255, 0.9);
+    color: black;
+}

@@ -27,7 +27,8 @@ def db():
         date DATE NOT NULL,
         players INTEGER NOT NULL,
         weight INTEGER NOT NULL,
-        pgn TEXT
+        gif TEXT,
+        link TEXT
     )
     ''')
     conn.commit()
@@ -142,7 +143,7 @@ def updateccr():
     except Exception as e:
         print(f"An error occurred while updating CCR with decay: {e}")
 
-def updatedb(rows, tournament_date, tournament_name, weight,winner,players,pgn):
+def updatedb(rows, tournament_date, tournament_name, weight,winner,players,gif):
     try:
         players_conn = sqlite3.connect('data/players.db')
         players_cursor = players_conn.cursor()
@@ -215,7 +216,8 @@ def updatedb(rows, tournament_date, tournament_name, weight,winner,players,pgn):
                 ''', (username, rating, total_ccr, tourns, total_podiums))
 
         main_conn.commit()
-        main_cursor.execute('INSERT INTO tourns (name,winner,date,players,weight,pgn) VALUES (?,?,?,?,?,?)',(tournament_name,winner,tournament_date,players,weight,pgn))
+        gamelink='https://lichess.org/'+gif.split('/')[-1][:-4]
+        main_cursor.execute('INSERT INTO tourns (name,winner,date,players,weight,gif,link) VALUES (?,?,?,?,?,?,?)',(tournament_name,winner,tournament_date,players,weight,gif,gamelink))
         main_conn.commit()
         main_conn.close()
 
@@ -233,12 +235,20 @@ def index():
         return render_template('index.html')
     elif request.method=='POST':
         button=request.form['button']
-        if button=='addtourn': return redirect('/add')
+        if button=='addtourn': return redirect('/verify')
         elif button=='viewplayers':return redirect('/viewplayers')
         elif button=='tutorial': return redirect('/guide')
         elif button=='iconic': return redirect('/iconic')
 
-@app.route('/add',methods=['GET','POST'])
+@app.route('/verify', methods=['GET','POST'])
+def verify():
+    if request.method=='GET': return render_template('pwd.html')
+    elif request.method=='POST': 
+        if request.form['password']=='motdepasse': return redirect('/add')
+        else: return render_template('pwd.html',error=True)
+
+
+@app.route('/add',methods=['GET','POST','PUT'])
 def add():
     if request.method=='GET':
         return render_template('add.html')
@@ -248,7 +258,7 @@ def add():
         w=int(request.form['weight'])
         n=int(request.form['players'])
         winner=request.form['winner']
-        pgniconic=request.files['pgniconic'].stream.read().decode('utf-8')
+        pgniconic=request.form['pgniconic']
         date = datetime.strptime(request.form['date'], '%Y-%m-%d').date()
         for row in rows:
             row.setdefault('games',0)
@@ -281,6 +291,18 @@ def viewplayers():
 @app.route('/guide')
 def guide():
     return render_template('ccr.html')
+
+
+@app.route('/iconic')
+def iconic():
+    # Fetch data from the database
+    conn = sqlite3.connect('data/main.db')
+    c = conn.cursor()
+    c.execute('SELECT * FROM tourns')
+    tournaments = c.fetchall()
+    conn.close()
+    print(tournaments)
+    return render_template('iconic.html', tournaments=tournaments)
 
 
 if __name__=='__main__':

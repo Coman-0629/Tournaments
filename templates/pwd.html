@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CTAF: User Verification</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles_pwd.css') }}">
+  
+  
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+</head>
+<body>
+
+  
+  <div id="particles-js"></div>
+
+  
+  <button class="back-btn" onclick="goBack()">← Back</button>
+
+  <div class="container">
+    <h1>Welcome Organizer!</h1>
+    <p class="subheading">Please enter your password to continue.</p>
+    
+    
+    <div id="loading-spinner" class="loading-spinner" style="display: none;"></div>
+    
+    <form id="loginForm" method="POST" action="/verify"">
+      <input type="password" id="password" class="password" name="password" placeholder="Enter Password" required>
+      
+      
+      <div class="toggle-password">
+        <input type="checkbox" id="showPassword" onclick="togglePassword()"> Show Password
+      </div>
+      
+      <button type="submit" class="submit-btn">Submit</button>
+      <div class="error-message" id="error-message">{%if error==True%}Wrong password entered! Try again{%endif%}</div>
+    </form>
+  </div>
+
+  <script>
+    const correctPassword = 'motdepasse';
+
+    
+    particlesJS('particles-js', {
+      particles: {
+        number: {
+          value: 80,
+          density: { enable: true, value_area: 800 }
+        },
+        color: { value: "#ff007f" },
+        shape: {
+          type: "circle",
+          stroke: { width: 0, color: "#ff007f" },
+          polygon: { nb_sides: 5 }
+        },
+        opacity: {
+          value: 0.5,
+          random: true,
+          anim: { enable: true, speed: 1, opacity_min: 0.1, sync: false }
+        },
+        size: { value: 3, random: true, anim: { enable: true, speed: 4, size_min: 0.1, sync: false } },
+        line_linked: { enable: true, distance: 150, color: "#ff007f", opacity: 0.4, width: 1 },
+        move: {
+          enable: true,
+          speed: 2,
+          direction: "random",
+          random: true,
+          straight: false,
+          out_mode: "out",
+          bounce: false
+        }
+      },
+      interactivity: {
+        detect_on: "canvas",
+        events: {
+          onhover: { enable: true, mode: "repulse" },
+          onclick: { enable: true, mode: "push" }
+        },
+        modes: {
+          repulse: { distance: 100, duration: 0.4 },
+          push: { particles_nb: 4 }
+        }
+      },
+      retina_detect: true
+    });
+
+    
+
+    function togglePassword() {
+      const passwordField = document.getElementById('password');
+      const passwordToggle = document.getElementById('showPassword');
+      
+      if (passwordToggle.checked) {
+        passwordField.type = 'text'; 
+      } else {
+        passwordField.type = 'password'; 
+      }
+    }
+
+    function goBack()
+    {
+      window.location.href="/"
+    }
+  </script>
+
+</body>
+</html>

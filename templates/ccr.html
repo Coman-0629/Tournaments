@@ -6,10 +6,14 @@
     <title>CTAF: Working Formulae</title>
     <!-- Link to Google Fonts for fancy text -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Link to external CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='styles_ccr.css') }}">
 </head>
 <body background="chessbg.png">
 
+    <a href="javascript:history.back()" class="back-button">
+         Go Back
+    </a>
     <header>
         Chess Formulae, Explanations & Uses
     </header>
@@ -26,15 +30,15 @@
         <div class="formula-card">
             <h3>CCR Formula:<br>The CCR for a single tournament is given by:</h3>
             <div class="formula">
-                <p>CCR<sub>raw</sub> = (W/10) &times; {k<sub>1</sub>.Perf<sup>2</sup> + k<sub>2</sub>.P + k<sub>3</sub>.R + (10/Ptl)}</p>
+                <p>CCR<sub>raw</sub> = (W/5) &times; {k<sub>1</sub>.Perf<sup>2</sup> + k<sub>2</sub>.P + k<sub>3</sub>.R + (10/Ptl)}</p>
             </div>
             <div class="explanation">
                 <ul>
                     <li><b>W</b> is weight of tournaments (1 to 5), reflecting importance<br></li>
-                    <li><b>PERF</b> is tournament performance score (by Glick-o or FIDE rules)<br></li>
+                    <li><b>Perf</b> is tournament performance score (by Glick-o or FIDE rules)<br></li>
                     <li><b>P</b> is number of points scored in tournament<br></li>
                     <li><b>R</b> is win-rate of the participant<br></li>
-                    <li><b>PTL</b> is percentile rank</li>
+                    <li><b>Ptl</b> is percentile rank</li>
                 </ul>
             </div>
         </div>
@@ -48,8 +52,8 @@
             </div>
             <div class="explanation">
                 <ul>
-                    <li><b>T</b> is the time elapsed since tournament in days</li><br>
-                    <li><b>T<sub>0</sub></b> is the threshold time before which rating decay is gradual, and post which rating decay is accelerated</li>
+                    <li><b>t</b> is the time elapsed since tournament in days</li><br>
+                    <li><b>t<sub>0</sub></b> is the threshold time before which rating decay is gradual, and post which rating decay is accelerated</li>
                 </ul>
             </div>
         </div>
