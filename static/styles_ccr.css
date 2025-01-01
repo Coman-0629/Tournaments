@@ -1,0 +1,150 @@
+/* Global Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-image: url('chessbg.png'); /* Set your background image here */
+    margin: 0;
+    padding: 0;
+    color: #333;
+    line-height: 1.6;
+}
+
+header {
+    background: linear-gradient(135deg, #00aaff, #0044cc);
+    color: white;
+    padding: 40px 20px;
+    text-align: center;
+    font-size: 3rem;
+    font-family: 'Spectral SC', serif;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    letter-spacing: 2px;
+}
+
+.introduction {
+    background: linear-gradient(135deg, #00aaff, #0044cc); /* Custom gradient */    color: #333;
+    padding: 50px 20px;
+    text-align: center;
+    margin: 40px auto;
+    max-width: 900px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.introduction h2 {
+    font-size: 2.5rem;
+    color: #ff00fb;
+    font-family: 'Spectral SC', serif;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.introduction p {
+    font-size: 1.2rem;
+    color: #24ec38;
+    line-height: 1.8;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+section {
+    background-color: #ffeb3b; /* Bright yellow background */
+    padding: 40px 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.formula-card {
+    background: linear-gradient(135deg, #00aaff, #abf436); /* Gradient from orange to red */    padding: 30px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.formula-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.formula-card h3 {
+    font-size: 1.8rem;
+    color: #333;
+    font-family: 'Spectral SC', serif;
+    margin-bottom: 20px;
+}
+
+.formula-card .formula {
+    font-size: 2.2rem;
+    font-family: 'Spectral SC', serif;
+    color: #0056b3;
+    margin: 20px 0;
+    line-height: 1.4;
+}
+
+.formula-card .explanation {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.btn-learn-more {
+    display: inline-block;
+    background-color: #007bff;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-size: 1.1rem;
+    margin-top: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-learn-more:hover {
+    background-color: #0056b3;
+    transform: translateY(-3px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    section {
+        padding: 20px;
+    }
+
+    .formula-card {
+        padding: 20px;
+    }
+
+    .introduction {
+        padding: 30px 15px;
+    }
+
+    .introduction h2 {
+        font-size: 2rem;
+    }
+
+    .formula-card h3 {
+        font-size: 1.6rem;
+    }
+}
+
+/* Style for the unordered list in each section */
+ul {
+    list-style-type:decimal; /* Default disc bullets */
+    padding-left: 20px; /* Indentation for the list */
+    font-size: 1.1rem; /* Increase font size for better readability */
+    color: #d10e0e; /* Light grey text color */
+    line-height: 1.8; /* Add some space between list items */
+}
+
+ul li {
+    margin-bottom: 10px; /* Space between each bullet point */
+}
+
+ul li strong {
+    color: #007bff; /* Highlight the formula names */
+    font-weight: bold;
+}
+
+

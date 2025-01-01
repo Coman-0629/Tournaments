@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CTAF: Working Formulae</title>
+    <!-- Link to Google Fonts for fancy text -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles_ccr.css') }}">
+</head>
+<body background="chessbg.png">
+
+    <header>
+        Chess Formulae, Explanations & Uses
+    </header>
+    <!-- Introduction Section -->
+    <section class="introduction">
+        <h2>Welcome to the World of Chess Formulae</h2>
+        <p>
+            The Class Chess Rating (CCR) is calculated using a performance-centric formula, ensuring a fair and representative ranking for participants.        </p>
+        <p>
+            The CCR formula is designed to prioritize performance, while incorporating other tournament-related factors.        </p>
+    </section>
+    <section>
+        <!-- Formula Card 1 -->
+        <div class="formula-card">
+            <h3>CCR Formula:<br>The CCR for a single tournament is given by:</h3>
+            <div class="formula">
+                <p>CCR<sub>raw</sub> = (W/10) &times; {k<sub>1</sub>.Perf<sup>2</sup> + k<sub>2</sub>.P + k<sub>3</sub>.R + (10/Ptl)}</p>
+            </div>
+            <div class="explanation">
+                <ul>
+                    <li><b>W</b> is weight of tournaments (1 to 5), reflecting importance<br></li>
+                    <li><b>PERF</b> is tournament performance score (by Glick-o or FIDE rules)<br></li>
+                    <li><b>P</b> is number of points scored in tournament<br></li>
+                    <li><b>R</b> is win-rate of the participant<br></li>
+                    <li><b>PTL</b> is percentile rank</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Formula Card 2 -->
+        <div class="formula-card">
+            <h3>Sigmoidal Decay:<br>The CCR decays over time using a sigmoidal function, ensuring gradual deterioration initially, followed by a sharper decline.
+                The decay function is:</h3>
+            <div class="formula">
+                <p>Decay D(t) = 1/(1 + e<sup>-(t-t<sub>0</sub>)</sup>)</p>
+            </div>
+            <div class="explanation">
+                <ul>
+                    <li><b>T</b> is the time elapsed since tournament in days</li><br>
+                    <li><b>T<sub>0</sub></b> is the threshold time before which rating decay is gradual, and post which rating decay is accelerated</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Formula Card 3 -->
+        <div class="formula-card">
+            <h3>Final CCR is given by:</h3>
+            <div class="formula">
+                CCR<sub>final</sub> = CCR<sub>raw</sub>.D(t)
+            </div>
+            
+        </div>
+
+
+    </section>
+</body>
+</html>

@@ -278,6 +278,11 @@ def viewplayers():
         return render_template('viewplayers.html',data=())
 
 
+@app.route('/guide')
+def guide():
+    return render_template('ccr.html')
+
+
 if __name__=='__main__':
     if not os.path.exists('data'):
         os.makedirs('data')
