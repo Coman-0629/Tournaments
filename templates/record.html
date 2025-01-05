@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Player Record</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles_player_record.css') }}">
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+</head>
+<body>
+    <div id="particles-js"></div>
+    <button class="back-button" onclick="goBack()">Go Back</button>
+
+    <div class="container">
+        <h1 class="heading">Player Records</h1>
+        <form method="POST" action="/record">
+            <table class="player-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Player Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for player in players %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>
+                            <button class="player-button" name="player_name" value="{{ player[0] }}">{{ player[0] }}</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </form>
+    </div>
+
+    <script>
+        particlesJS.load('particles-js', '/static/particles.json', function() {
+            console.log('Particles.js loaded');
+        });
+
+        function goBack() {
+            window.location.href = '/';
+        }
+    </script>
+</body>
+</html>

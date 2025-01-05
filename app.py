@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect
+from matplotlib import pyplot as plt
 import sqlite3
 import csv
 import chess.pgn
@@ -148,11 +149,15 @@ def updatedb(rows, tournament_date, tournament_name, weight,winner,players,gif):
         players_conn = sqlite3.connect('data/players.db')
         players_cursor = players_conn.cursor()
         for row in rows:
-            username = row['Username']
-            rating = row['Rating']
-            raw_ccr = row['ccr']
-            games = row['games']
-            winrate = row['winrate']
+            try:
+                username = row['Username']
+                rating = row['Rating']
+                raw_ccr = row['ccr']
+                games = row['games']
+                winrate = row['winrate']
+                rank=row['Rank']
+                perf=row['Performance']
+            except Exception as f: print('Error in something: ',f)
             podium = 1 if row['pct'] >= 85 else 0
             players_cursor.execute(f'''
                 CREATE TABLE IF NOT EXISTS "{username}" (
@@ -163,14 +168,16 @@ def updatedb(rows, tournament_date, tournament_name, weight,winner,players,gif):
                     winrate REAL,
                     date DATE,
                     podium INTEGER,
-                    weight INTEGER
+                    weight INTEGER,
+                    rank INTEGER,
+                    perf INTEGER
                 )
             ''')
 
             players_cursor.execute(f'''
-                INSERT INTO "{username}" (rating, ccr, tourn, games, winrate, date, podium, weight)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-            ''', (rating, raw_ccr, tournament_name, games, winrate, tournament_date, podium, weight))
+                INSERT INTO "{username}" (rating, ccr, tourn, games, winrate, date, podium, weight,rank,perf)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?)
+            ''', (rating, raw_ccr, tournament_name, games, winrate, tournament_date, podium, weight,rank,perf))
 
         players_conn.commit()
         players_conn.close()
@@ -239,6 +246,7 @@ def index():
         elif button=='viewplayers':return redirect('/viewplayers')
         elif button=='tutorial': return redirect('/guide')
         elif button=='iconic': return redirect('/iconic')
+        elif button=='record': return redirect('/record')
 
 @app.route('/verify', methods=['GET','POST'])
 def verify():
@@ -301,8 +309,99 @@ def iconic():
     c.execute('SELECT * FROM tourns')
     tournaments = c.fetchall()
     conn.close()
-    print(tournaments)
     return render_template('iconic.html', tournaments=tournaments)
+
+@app.route('/record',methods=['GET','POST'])
+def record():
+    if request.method=='GET':
+        conn=sqlite3.connect('data/main.db')
+        c=conn.cursor()
+        c.execute('SELECT name FROM players ORDER BY ccr DESC')
+        names=c.fetchall()
+        conn.close()
+        return render_template('record.html',players=names)
+    elif request.method=='POST':
+        player=request.form['player_name']
+        return redirect('/playerinfo/'+str(player))
+    
+
+@app.route('/playerinfo/<player>')
+def player_details(player):
+    updateccr()
+    conn = sqlite3.connect('data/players.db')
+    c = conn.cursor()
+
+    # Fetch tournaments data
+    c.execute(f'SELECT date, rating, ccr, tourn, games, winrate, podium, weight, rank,perf FROM "{player}" ORDER BY date')
+    data = c.fetchall()
+    conn.close()
+
+    # Process data for the table and charts
+    dates, ratings, performances, ccrs, tournaments = [], [], [], [], []
+    total_games, total_podiums = 0, 0
+    
+    try:
+        for row in data:
+            dates.append(row[0])
+            ratings.append(row[1])
+            performances.append(row[9])
+            ccrs.append(row[2])
+            tournaments.append({
+                'tourn': row[3],
+                'date': row[0],
+                'weight': row[7],
+                'rank': row[8],
+                'rating': row[1],
+                'ccr': row[2],
+                'performance': row[9],
+                'winrate': row[5],
+                'games': row[4],
+                'wins': round(row[5] * row[4] / 100)
+            })
+            total_games += row[4]
+            total_podiums += row[6]
+    except Exception as e: print('Error in gathering data:',e)
+    conn=sqlite3.connect('data/main.db')
+    c=conn.cursor()
+    try:
+        c.execute('SELECT * FROM players')
+        for i in c.fetchall():
+            if i[0]==player: ccrlive=i[2]
+    except Exception as e: print('Error in CCRLIVE: ',e,player)
+    conn.close()
+
+    plt.figure(figsize=(12, 8))
+    plt.subplot(3, 1, 1)
+    plt.plot(dates, ratings, marker='o', label='Rating')
+    plt.title('Rating Over Time')
+    plt.grid()
+
+    plt.subplot(3, 1, 2)
+    plt.plot(dates, performances, marker='o', label='Performance', color='green')
+    plt.title('Performance Over Time')
+    plt.grid()
+
+    plt.subplot(3, 1, 3)
+    plt.plot(dates, ccrs, marker='o', label='Raw CCR', color='red')
+    plt.title('Raw CCR Over Time')
+    plt.grid()
+
+    plt.tight_layout()
+    plt.savefig('static/growth_chart.png')
+    plt.close()
+
+    return render_template(
+        'details.html',
+        player=player,
+        tourns=len(data),
+        ccr=ccrlive,  
+        rating=ratings[-1] if ratings else 0,
+        podiums=total_podiums,
+        games=total_games,
+        tournaments=tournaments
+    )
+
+
 
 
 if __name__=='__main__':

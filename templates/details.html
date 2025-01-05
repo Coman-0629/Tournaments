@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CTAF: Player Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles_player_details.css') }}">
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+</head>
+<body>
+    <div id="particles-js"></div>
+    <button class="back-button" onclick="goBack()">Go Back</button>
+
+    <div class="general-info">
+        <h2 class="div-heading">GENERAL INFORMATION</h2>
+        <p><strong>Name:</strong> {{ player }}</p>
+        <p><strong>CCR:</strong> {{ ccr | round(3) }}</p>
+        <p><strong>Latest Rating:</strong> {{ rating }}</p>
+        <p><strong>Number of Tournaments:</strong> {{ tourns }}</p>
+        <p><strong>Podiums:</strong> {{ podiums }}</p>
+        <p><strong>Total Games:</strong> {{ games }}</p>
+    </div>
+
+    <div class="tournament-record">
+        <h2 class="div-heading">TOURNAMENT RECORD</h2>
+        <table class="tournament-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Tournament Name</th>
+                    <th>Date</th>
+                    <th>Weight</th>
+                    <th>Rank</th>
+                    <th>Rating</th>
+                    <th>Raw CCR</th>
+                    <th>Performance</th>
+                    <th>Win Rate</th>
+                    <th>Games Played</th>
+                    <th>Games Won</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for tournament in tournaments %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ tournament['tourn'] }}</td>
+                    <td>{{ tournament['date'] }}</td>
+                    <td>{{ tournament['weight'] }}</td>
+                    <td>{{ tournament['rank'] }}</td>
+                    <td>{{ tournament['rating'] }}</td>
+                    <td>{{ tournament['ccr'] }}</td>
+                    <td>{{ tournament['performance'] }}</td>
+                    <td>{{ tournament['winrate'] }}</td>
+                    <td>{{ tournament['games'] }}</td>
+                    <td>{{ tournament['wins'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="growth-chart">
+        <h2 class="div-heading">GROWTH CHART</h2>
+        <img src="{{ url_for('static', filename='growth_chart.png') }}" alt="Growth Chart" class="chart-image">
+    </div>
+
+    <script>
+        particlesJS.load('particles-js', '/static/particles.json', function() {
+            console.log('Particles.js loaded');
+        });
+
+        function goBack() {
+            window.location.href = '/';
+        }
+    </script>
+</body>
+</html>
