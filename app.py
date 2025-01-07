@@ -331,15 +331,14 @@ def player_details(player):
     conn = sqlite3.connect('data/players.db')
     c = conn.cursor()
 
-    # Fetch tournaments data
-    c.execute(f'SELECT date, rating, ccr, tourn, games, winrate, podium, weight, rank,perf FROM "{player}" ORDER BY date')
+    c.execute(f'SELECT date, rating, ccr, tourn, games, winrate, podium, weight, rank, perf FROM "{player}" ORDER BY date')
     data = c.fetchall()
     conn.close()
 
-    # Process data for the table and charts
     dates, ratings, performances, ccrs, tournaments = [], [], [], [], []
     total_games, total_podiums = 0, 0
-    
+    ccrlive = 0
+
     try:
         for row in data:
             dates.append(row[0])
@@ -360,14 +359,23 @@ def player_details(player):
             })
             total_games += row[4]
             total_podiums += row[6]
-    except Exception as e: print('Error in gathering data:',e)
-    conn=sqlite3.connect('data/main.db')
-    c=conn.cursor()
+    except Exception as e:
+        print('Error in gathering data:', e)
+
+    conn = sqlite3.connect('data/main.db')
+    c = conn.cursor()
+
+    rank = None
     try:
-        c.execute('SELECT * FROM players')
-        for i in c.fetchall():
-            if i[0]==player: ccrlive=i[2]
-    except Exception as e: print('Error in CCRLIVE: ',e,player)
+        c.execute('SELECT name, ccr FROM players ORDER BY ccr DESC')
+        players_ranked = c.fetchall()
+        for index, (name, ccr) in enumerate(players_ranked, start=1):
+            if name == player:
+                ccrlive = ccr
+                rank = index
+                break
+    except Exception as e:
+        print('Error in CCRLIVE or rank:', e, player)
     conn.close()
 
     plt.figure(figsize=(12, 8))
@@ -394,12 +402,14 @@ def player_details(player):
         'details.html',
         player=player,
         tourns=len(data),
-        ccr=ccrlive,  
+        ccr=ccrlive,
+        rank=rank,
         rating=ratings[-1] if ratings else 0,
         podiums=total_podiums,
         games=total_games,
         tournaments=tournaments
     )
+
 
 
 

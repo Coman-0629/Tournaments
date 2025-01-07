@@ -35,7 +35,7 @@ button.back-button:hover {
 }
 
 /* Divisions */
-.general-info, .tournament-record, .growth-chart {
+.tournament-record, .growth-chart {
     width: 80%;
     margin: 20px auto;
     padding: 20px;
@@ -44,12 +44,74 @@ button.back-button:hover {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
 }
 
+
+/* General Information Section */
+.general-info {
+    display: flex;
+    flex-direction: column; /* Stack heading on top */
+    align-items: center; /* Center align all content */
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+    border-radius: 10px;
+    margin: 20px auto;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    width: 80%; /* Restrict width for alignment with other divisions */
+}
+
+/* Heading Styling */
+.div-heading {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 20px; /* Space below the heading */
+}
+
+/* Container for Info and Rank */
+.info-container {
+    display: flex;
+    flex-direction: row; /* Keep info and rank side by side */
+    justify-content: space-between; /* Space between left and right */
+    width: 100%; /* Occupy full width of the parent container */
+}
+
+/* Left-side Info */
+.info-left {
+    width: 70%; /* Allocate more space for info */
+    color: white;
+    text-align: left;
+}
+
+/* Rank Display */
+.rank-display {
+    width: 30%; /* Allocate less space for rank */
+    text-align: center;
+}
+
+/* Rank Number Styling */
+.rank {
+    font-size: 4rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
+}
+
+.rank.top-rank {
+    color: #32CD32; /* Bright green for top 5 */
+}
+
+.rank.lower-rank {
+    color: #FF4500; /* Red for ranks beyond top 5 */
+}
+
+
+
 .div-heading {
     font-size: 1.8rem;
     margin-bottom: 10px;
     text-align: center;
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
     color: #ffd700;
+    display: block
 }
 
 /* Tournament Table */

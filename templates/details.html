@@ -13,12 +13,19 @@
 
     <div class="general-info">
         <h2 class="div-heading">GENERAL INFORMATION</h2>
-        <p><strong>Name:</strong> {{ player }}</p>
-        <p><strong>CCR:</strong> {{ ccr | round(3) }}</p>
-        <p><strong>Latest Rating:</strong> {{ rating }}</p>
-        <p><strong>Number of Tournaments:</strong> {{ tourns }}</p>
-        <p><strong>Podiums:</strong> {{ podiums }}</p>
-        <p><strong>Total Games:</strong> {{ games }}</p>
+        <div class="info-container">
+            <div class="info-left">
+                <p><strong>Name:</strong> {{ player }}</p>
+                <p><strong>CCR:</strong> {{ ccr | round(3) }}</p>
+                <p><strong>Latest Rating:</strong> {{ rating }}</p>
+                <p><strong>Number of Tournaments:</strong> {{ tourns }}</p>
+                <p><strong>Podiums:</strong> {{ podiums }}</p>
+                <p><strong>Total Games:</strong> {{ games }}</p>
+            </div>
+            <div class="rank-display">
+                <h1 class="rank {% if rank <= 5 %}top-rank{% else %}lower-rank{% endif %}">#{{ rank }}</h1>
+            </div>
+        </div>
     </div>
 
     <div class="tournament-record">
@@ -70,7 +77,7 @@
         });
 
         function goBack() {
-            window.location.href = '/';
+            window.location.href = '/record';
         }
     </script>
 </body>
