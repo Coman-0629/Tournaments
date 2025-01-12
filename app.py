@@ -35,12 +35,21 @@ def db():
     conn.commit()
     conn.close()
 
-def ccr(w,r,p,pct,perf):
+def ccr(w,r,p,pct,perf,games):
     try:
-        ccr=p*0.1+0.000003*perf**2-0.02*pct+0.2*r
-        ccr*=w/5
-    except Exception as e: ccr=0.0
-    return round(ccr,3)
+        ccr = p * 0.12 + 0.0000035 * perf**2 - 0.03 * pct + 0.08 * r
+        if games <= 5:
+            game_bonus = 0.4 * games
+        elif games <= 10:
+            game_bonus = 1.75 + 0.15 * (games - 5)
+        else:
+            game_bonus = 2.8
+        ccr += game_bonus
+        ccr *= w / 5
+    except:
+        ccr = 0.0
+    return round(ccr, 3)
+
 
 
 def ccrdecay(ccr, weight, tournament_date):
@@ -107,7 +116,7 @@ def updateplayer(rows, pgn,w,p):
                 pct=round((p-int(player['Rank']))*100/p,2)
                 player['pct']=pct
                 try:
-                    player['ccr']=ccr(w,player['winrate'],int(player['Score']),pct,int(player['Performance']))
+                    player['ccr']=ccr(w,player['winrate'],int(player['Score']),pct,int(player['Performance']),games)
                 except Exception as e:
                     player['ccr']=0.0
                     return redirect('/')
@@ -223,7 +232,7 @@ def updatedb(rows, tournament_date, tournament_name, weight,winner,players,gif):
                 ''', (username, rating, total_ccr, tourns, total_podiums))
 
         main_conn.commit()
-        gamelink='https://lichess.org/'+gif.split('/')[-1][:-4]
+        gamelink='https://lichess.org'+gif[30:]
         main_cursor.execute('INSERT INTO tourns (name,winner,date,players,weight,gif,link) VALUES (?,?,?,?,?,?,?)',(tournament_name,winner,tournament_date,players,weight,gif,gamelink))
         main_conn.commit()
         main_conn.close()
@@ -281,19 +290,34 @@ def add():
 
 
 
-@app.route('/viewplayers')
+@app.route('/viewplayers', methods=['GET', 'POST'])
 def viewplayers():
     try:
         updateccr()
-        conn=sqlite3.connect('data/main.db')
-        c=conn.cursor()
-        c.execute('SELECT * FROM players ORDER BY ccr DESC')
-        rows=c.fetchall()
-        conn.close()
-        return render_template('viewplayers.html',data=rows)
-    except Exception as e: 
-        print('Relay Error from ViewPlayers: ',e)
-        return render_template('viewplayers.html',data=())
+        if request.method == 'GET':
+            sort_by = 'ccr'
+            conn = sqlite3.connect('data/main.db')
+            c = conn.cursor()
+            c.execute(f'SELECT * FROM players ORDER BY ccr DESC')
+            rows = c.fetchall()
+            return render_template('viewplayers.html',data=rows,sort_by=sort_by)
+        else:
+            sort_by = request.form.get('sort_by', 'ccr')
+            sort_column = {
+                'ccr': 'ccr DESC',
+                'rating': 'rating DESC',
+                'podiums': 'podiums DESC, ccr DESC'
+            }.get(sort_by, 'ccr DESC')
+            conn = sqlite3.connect('data/main.db')
+            c = conn.cursor()
+            c.execute(f'SELECT * FROM players ORDER BY {sort_column}')
+            rows = c.fetchall()
+            conn.close()
+            return render_template('viewplayers.html', data=rows, sort_by=sort_by)
+    except Exception as e:
+        print('Relay Error from ViewPlayers: ', e)
+        return render_template('viewplayers.html', data=(), sort_by='ccr')
+
 
 
 @app.route('/guide')

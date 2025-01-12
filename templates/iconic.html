@@ -28,8 +28,13 @@
                     <strong>Weight:</strong> {{ tournament[4] }}
                 </p>
             </div>
-            <a class="tournament-gif" href="{{tournament[6]}}" target="_blank">
-                <img src="{{ tournament[5] }}"></img>
+            <a class="tournament-gif" href="{{ tournament[6] }}" target="_blank">
+                <iframe src="{{ tournament[5]}}" 
+                        width="600" 
+                        height="397" 
+                        frameborder="0" 
+                        allowfullscreen>
+                </iframe>
                 <p>Click To View Actual Game</p>
             </a>
         </div>

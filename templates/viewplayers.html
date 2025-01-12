@@ -13,9 +13,16 @@
             window.location.href = '/';  
         }
     </script>
+    <div class="sorting-pane">
+        <form method="POST" action="/viewplayers">
+            <button type="submit" name="sort_by" value="ccr" class="{{ 'active' if sort_by == 'ccr' else '' }}">Default (CCR)</button>
+            <button type="submit" name="sort_by" value="rating" class="{{ 'active' if sort_by == 'rating' else '' }}">Rating</button>
+            <button type="submit" name="sort_by" value="podiums" class="{{ 'active' if sort_by == 'podiums' else '' }}">Most Podiums</button>
+        </form>
+    </div>
+    
     <div class="container">
         <h1 class="header">Leaderboard</h1>
-
         
         {% if data %}
             <table>
@@ -25,18 +32,16 @@
                         <th>Name</th>
                         <th>Total CCR</th>
                         <th>Rating</th>
-                        <th>Number of tournaments</th>
+                        <th>Number of Tournaments</th>
                         <th>Number of Podiums</th>
-
                     </tr>
                 </thead>
                 <tbody>
-                    
                     {% for player in data %}
                         <tr>
                             <td>{{ loop.index }}</td>
                             <td>{{ player[0] }}</td>
-                            <td>{{ player[2] | round(3)}}</td>
+                            <td>{{ player[2] | round(3) }}</td>
                             <td>{{ player[1] }}</td>
                             <td>{{ player[3] }}</td>
                             <td>{{ player[4] }}</td>
