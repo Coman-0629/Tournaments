@@ -34,6 +34,17 @@ def db():
     ''')
     conn.commit()
     conn.close()
+    conn_badges = sqlite3.connect("data/badges.db")
+    c_badges = conn_badges.cursor()
+    c_badges.execute('''
+    CREATE TABLE IF NOT EXISTS dynamic (
+        name TEXT NOT NULL UNIQUE,
+        holder TEXT NOT NULL,
+        url TEXT
+    )
+    ''')
+    conn_badges.commit()
+    conn_badges.close()
 
 def ccr(w,r,p,pct,perf,games):
     try:
@@ -242,6 +253,38 @@ def updatedb(rows, tournament_date, tournament_name, weight,winner,players,gif):
     except Exception as e:
         print(f"An error occurred: {e}")
 
+def update_dynamic_badges():
+    try:
+        conn = sqlite3.connect("data/main.db")
+        c = conn.cursor()
+        c.execute('SELECT name, ccr FROM players ORDER BY ccr DESC LIMIT 1')
+        highest_ccr = c.fetchone()
+        c.execute('SELECT name, rating FROM players WHERE ccr > 0 ORDER BY rating DESC LIMIT 1')
+        highest_rated = c.fetchone()
+        c.execute('SELECT winner FROM tourns ORDER BY date DESC LIMIT 1')
+        current_champion = c.fetchone()
+        conn.close()
+        conn_badges = sqlite3.connect("data/badges.db")
+        c_badges = conn_badges.cursor()
+        badges = [
+            ("Highest CCR Holder", highest_ccr[0] if highest_ccr else "N/A", "ccr.png"),
+            ("Highest Rated Player", highest_rated[0] if highest_rated else "N/A", "rating.png"),
+            ("Current Champion", current_champion[0] if current_champion else "N/A", "champion.png")
+        ]
+
+        for badge in badges:
+            c_badges.execute('''
+            INSERT INTO dynamic (name, holder, url)
+            VALUES (?, ?, ?)
+            ON CONFLICT(name) DO UPDATE SET holder = excluded.holder, url = excluded.url
+            ''', badge)
+        conn_badges.commit()
+        conn_badges.close()
+
+        print("Dynamic badges updated successfully.")
+    except Exception as e:
+        print(f"Error updating dynamic badges: {e}")
+
 
 
 
@@ -286,6 +329,7 @@ def add():
             updateplayer(rows,pgnfile,w,n)
         except Exception as e: print(e)
         updatedb(rows,date,request.form['name'],w,winner,n,pgniconic)
+        update_dynamic_badges()
         return render_template('add.html',status=1)
 
 
@@ -431,7 +475,7 @@ def player_details(player):
         rating=ratings[-1] if ratings else 0,
         podiums=total_podiums,
         games=total_games,
-        tournaments=tournaments
+        tournaments=tournaments,
     )
 
 
