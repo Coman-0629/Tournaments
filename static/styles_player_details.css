@@ -45,18 +45,49 @@ button.back-button:hover {
 }
 
 
-/* General Information Section */
 .general-info {
     display: flex;
-    flex-direction: column; /* Stack heading on top */
-    align-items: center; /* Center align all content */
+    flex-direction: column;
+    align-items: center;
     padding: 20px;
-    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+    background-color: rgba(0, 0, 0, 0.7);
     border-radius: 10px;
     margin: 20px auto;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-    width: 80%; /* Restrict width for alignment with other divisions */
+    width: 80%;
 }
+
+.badges {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.badge-container {
+    text-align: center;
+    width: 100px;
+}
+
+.badge-icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+    transition: transform 0.3s ease;
+}
+
+.badge-icon:hover {
+    transform: scale(1.2);
+}
+
+.badge-title {
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: gold;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.6);
+}
+
 
 /* Heading Styling */
 .div-heading {

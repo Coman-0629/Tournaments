@@ -371,7 +371,6 @@ def guide():
 
 @app.route('/iconic')
 def iconic():
-    # Fetch data from the database
     conn = sqlite3.connect('data/main.db')
     c = conn.cursor()
     c.execute('SELECT * FROM tourns')
@@ -446,6 +445,12 @@ def player_details(player):
         print('Error in CCRLIVE or rank:', e, player)
     conn.close()
 
+    conn_badges = sqlite3.connect('data/badges.db')
+    c_badges = conn_badges.cursor()
+    c_badges.execute('SELECT name, holder, url FROM dynamic WHERE holder = ?', (player,))
+    dynamic_badges = [{'name': row[0], 'tooltip': f"Player with {row[0]}!", 'url': row[2]} for row in c_badges.fetchall()]
+    conn_badges.close()
+
     plt.figure(figsize=(12, 8))
     plt.subplot(3, 1, 1)
     plt.plot(dates, ratings, marker='o', label='Rating')
@@ -476,6 +481,7 @@ def player_details(player):
         podiums=total_podiums,
         games=total_games,
         tournaments=tournaments,
+        dynamic_badges=dynamic_badges,
     )
 
 

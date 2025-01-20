@@ -26,7 +26,18 @@
                 <h1 class="rank {% if rank <= 5 %}top-rank{% else %}lower-rank{% endif %}">#{{ rank }}</h1>
             </div>
         </div>
+
+        <div class="badges">
+            {% for badge in dynamic_badges %}
+            <div class="badge-container">
+                <img src="{{  badge['url'] }}" alt="{{ badge['name'] }}"
+                     title="{{ badge['tooltip'] }}" class="badge-icon">
+                <p class="badge-title">{{ badge['name'] }}</p>
+            </div>
+            {% endfor %}
+        </div>
     </div>
+    
 
     <div class="tournament-record">
         <h2 class="div-heading">TOURNAMENT RECORD</h2>
